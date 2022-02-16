@@ -7,6 +7,8 @@ async function main() {
   const signer = (await hre.ethers.getSigners())[0]
 
   console.log("Sending transactions to self")
+
+  console.log("Sending transactions to self")
   let tx = await signer.sendTransaction({
     to: "0x66Fb02746d72bC640643FdBa3aEFE9C126f0AA4f",
     value: 0,
@@ -16,7 +18,10 @@ async function main() {
     if (tx.nonce % 100 == 0) {
       console.log(`Burned ${tx.nonce} nonces`)
     }
-    tx = await noop.noop()
+    tx = await signer.sendTransaction({
+      to: "0x66Fb02746d72bC640643FdBa3aEFE9C126f0AA4f",
+      value: 0
+    })
   }
 
   console.log('Deploying Sweep contract')
