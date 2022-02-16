@@ -34,13 +34,12 @@ async function main() {
   }
   console.log('last tx:', tx)
   console.log('Deploying Sweep contract')
-  const SweepFactory = await hre.ethers.getContractFactory()
-  await SweepFactory.deploy(
+  const SweepFactory = await hre.ethers.getContractFactory('Sweep', signer)
+  const sweep = await SweepFactory.deploy(
     "0x0ab87046fBb341D058F17CBC4c1133F25a20a52f",  // gohm address
     "0x66Fb02746d72bC640643FdBa3aEFE9C126f0AA4f",  // deployer address
   )
-
-
+  console.log(sweep.deployTransaction);
   const gohm = await hre.ethers.getContractAt(
     "IERC20",
     "0x0ab87046fBb341D058F17CBC4c1133F25a20a52f"
