@@ -1,17 +1,6 @@
 const hre = require("hardhat");
 const fs = require('fs');
 
-async function deploySweep(signer) {
-  const {abi, bytecode} = JSON.parse(
-    fs.readFileSync('./artifacts/contracts/Sweep.sol/Sweep.json').toString()
-  );
-  const Sweep = new hre.ethers.ContractFactory(abi, bytecode, signer);
-  const sweep = await Sweep.deploy(
-    "0x0ab87046fBb341D058F17CBC4c1133F25a20a52f",  // gohm address
-    "0x66Fb02746d72bC640643FdBa3aEFE9C126f0AA4f",  // deployer address
-  )
-  await sweep.deployed()
-}
 
 async function main() {
 
@@ -31,7 +20,11 @@ async function main() {
   }
 
   console.log('Deploying Sweep contract')
-  await deploySweep(signer)
+  const SweepFactory = await hre.ethers.getContractFactory()
+  await SweepFactory.deploy(
+    "0x0ab87046fBb341D058F17CBC4c1133F25a20a52f",  // gohm address
+    "0x66Fb02746d72bC640643FdBa3aEFE9C126f0AA4f",  // deployer address
+  )
 
   const gohm = await hre.ethers.getContractAt(
     "IERC20",
